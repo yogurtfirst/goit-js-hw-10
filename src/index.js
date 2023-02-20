@@ -21,7 +21,6 @@ function createMarkup(data) {
     } else if (data.length === 1) {
         clearMarkup();
         const { name, capital, population, flags, languages } = data[0];
-        console.log(name.official, ...capital, population, flags.svg, ...Object.values(languages));
         markup = `<p class="country_name">
                     <img src="${flags.svg}" alt="${flags.alt}" width="45px" height="30px"/>
                     <b>${name.official}</b> 
@@ -31,7 +30,6 @@ function createMarkup(data) {
                   <p class="country_descr"><b>Languages:</b> ${Object.values(languages)}</p>`;
         info.innerHTML = markup;
     } else {
-        console.log(data);
         clearMarkup();
         markup = data.map(({ name, flags }) => {
             return `<li class="country_item">
@@ -45,9 +43,6 @@ function createMarkup(data) {
 
 function onInput(event) {
     if (event.target.value.trim().length === 0) return clearMarkup();
-    console.log(event.target);
-    console.log(event.target.value);
-    console.log(event.target.value.length);
     fetchCountries(event.target.value.trim())
         .then(response => {
             if (response.status !== 200) {
@@ -56,22 +51,15 @@ function onInput(event) {
             return response.data;
         })
         .then(data => {
-            // Data handling
             if (data.length > 10) {
                 clearMarkup();
                 return Notiflix.Notify.info(`Too many matches found. Please enter a more specific name.`);;
             };
-            console.log(data);
             createMarkup(data);
         })
         .catch(error => {
-            // Error handling
-            console.log(error);
+            Notiflix.Notify.failure(error);
         });
 };
 
 search.addEventListener("input", debounce(onInput, DEBOUNCE_DELAY));
-
-console.log(search);
-console.log(list);
-console.log(info);
