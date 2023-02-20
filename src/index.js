@@ -27,7 +27,7 @@ function createMarkup(data) {
                   </p>
                   <p class="country_descr"><b>Capital:</b> ${capital}</p>
                   <p class="country_descr"><b>Population:</b> ${population}</p>
-                  <p class="country_descr"><b>Languages:</b> ${Object.values(languages)}</p>`;
+                  <p class="country_descr"><b>Languages:</b> ${Object.values(languages).join(", ")}</p>`;
         info.innerHTML = markup;
     } else {
         clearMarkup();
